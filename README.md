@@ -12,9 +12,9 @@ correlated, but can we do any better than just using P(A) as our approximation
 for P(M)?  The general idea is to  use the available historical data of pairs (P(A), M) (we have such a pair for each day of the year), 
 and  generate a predictor that takes in P(A) and outputs P(M). 
 
-In this case, there is an apparent naive approach: say that P(A) = 0.5, then we
-could historically at all the days where P(A) = 0.5, and ouput the fraction of
-days where the event M occured among those days. For example, if among all the
+In this case, there is an apparent naive approach: say that P(A) = 0.5. Then we
+could look at our historcal day and count the number of days where P(A) = 0.5, and then
+ ouput the fraction of days where the event M. For example, if among all the
 days where P(A) was forecasted to be 0.5, it rained in the metro area 60 times
 and did not rain 40 times, then we would output P(M) = 0.6.
 
