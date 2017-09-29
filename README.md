@@ -1,4 +1,4 @@
-#Motivation
+# Motivation
 
 As a toy scenario to motivate the forecasting problem: 
 
@@ -24,9 +24,15 @@ However, there are two primary complications in more general scenarios.
 1. Suppose our forecaster gives us very fine-grained forecast information -
    e.g., instead of seeing P(A) = 0.5, maybe we see P(A) = 0.5023. Then there
 may be very few days (historically) to compute our relative frequency,
-which could result in a ppor predictor. In this case, how should we choose
+which could result in a poor prediction. In this case, how should we choose
 which days to consider when computing our relative frequency? 
 
-2. Let `M_k` be the event where there are at least k millimeters of rain. 
-   Then on some days of the year, 
-
+2. Let M_k be the event where there are at least k millimeters of rain. 
+   Then on days where very little rain is anticipated, perhaps the forecaster
+    would only give us the information P(A_10), and P(A_15), whereas on days
+    where a lot of rain is expected, we could get P(A_50) and P(A_75). 
+    In this case, it is again unclear how we should choose which days to
+    consider when computing our relative frequency: We could just  select days
+    for which we have forecasts for the exact same events, but this again seems
+    unnecessarily limiting and could result in situation where we have very few
+    days from which we draw our relative frequencies.
