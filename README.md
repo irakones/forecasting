@@ -1,5 +1,9 @@
-# Motivation
+# Description
+    The purpose of this project is to employ basic clustering techniques to 
+    extend a forecast given by some forecaster for a particular event to try
+    predict probabilities of unforecasted  outcomes of that event. 
 
+# Motivation and Method
 As a toy scenario to motivate the forecasting problem: 
 
 Suppose we live in the metro area of our city, and our local weather has all their equipment
@@ -19,7 +23,8 @@ days where P(A) was forecasted to be 0.5, it rained in the metro area 60 times
 and did not rain 40 times, then we would output P(M) = 0.6.
 
 Now, obviously this method isn't perfect, but it may perform quite well.
-However, there are two primary complications in more general scenarios.
+However, there are two primary complications in more general scenarios, which
+are the core of what makes this problem complex and interesting:
 
 1. Suppose our forecaster gives us very fine-grained forecast information -
    e.g., instead of seeing P(A) = 0.5, maybe we see P(A) = 0.5023. Then there
@@ -36,3 +41,15 @@ which days to consider when computing our relative frequency?
     for which we have forecasts for the exact same events, but this again seems
     unnecessarily limiting and could result in situation where we have very few
     days from which we draw our relative frequencies.
+
+
+To solve the first problem, we use k-means clustering to group together days
+where the forecasts were 'similar'. Future work is it use more interesting
+metrics than the Euclidean one to complete this clustering. 
+
+To solve the second problem, we impute probabilties for all our examples in an
+'unbiased' way by conditioning the observed forecast with the historical
+data. For example, if we have, in all our histoy, seen forecasts for A_0 to A_10,
+and we receive an example where we get forecasts for A_5 and A_7 on some
+particular day, then we 'impute' A_4 to be #(num days where A = 4) / #(num days
+where A<= 5) * P(A_5).
