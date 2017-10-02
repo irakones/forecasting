@@ -6,9 +6,11 @@ def argmin(f, lst):
     return min(lst, key=lambda x: f(x))
 
 def norm(a, b):
+    # l2 norm of two vectors 
     return math.sqrt(sum([(a[i] - b[i])**2 for i in range(len(a))]))
 
 def vecsum(a, b):
+    # sum of vectors 
     if a == []:
         return b
     if b == []:
@@ -16,15 +18,19 @@ def vecsum(a, b):
     return [a[i] + b[i] for i in range(len(a))]
 
 def vecsum_list(lst):
+    # Computes vector sum of list of vectors 
     if len(lst) == 0:
         return []
     head, *tail = lst
     return vecsum(head, vecsum_list(tail))
 
 def vecmult(a, v):
+    # Scalar multiplication of v by a
     return [a*x for x in v]
 
 def compute_climatology(outcomes):
+    # Computes the climatological distribution of a set of out comes (that is,
+    # the relative frequencies of the obverved outcomes)
     climatology = defaultdict(float)
     m = len(outcomes)
     for outcome in outcomes:
@@ -42,6 +48,7 @@ class ForecastLearner(object):
         self.set_imputed_features()
 
     def set_extremes(self):
+        # calculate minimum and maximum ranges to use for imputation.
         maximum = -math.inf
         minimum = math.inf
         for d in self.examples:
@@ -57,6 +64,10 @@ class ForecastLearner(object):
         self.imputed = imputed
     
     def impute_example(self, example):
+        # Imputes an examples of the form
+        # [([-inf, a_1], p1), ([a_1 + 1, a_2], p_2), ..., ([a_n, inf], p_{n + 1}
+        # to the form [([-inf, min], q_1), (min + 1, q_2), ..., (max - 1, q_k), ([max, infinity), q_{k + 1})]
+        # by conditiioning on the climatology
         max_range = self.maximum
         min_range = self.minimum
         imputed = []
@@ -98,7 +109,7 @@ class ForecastLearner(object):
 
 
     def cluster(self, k):
-        # initialize random centers and clusters
+        # Standard k-means clustering with randomized initialization. 
         examples = self.imputed
         centers = sample(examples, k)
         while True:
@@ -121,6 +132,7 @@ class ForecastLearner(object):
         ]
     
     def predict(self, example):
+        # Returns the climatology of the best cluster.
         best_cluster = argmin(
                 lambda i: self.metric(example, self.centers[i]),
                 range(len(self.centers))
