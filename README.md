@@ -1,7 +1,7 @@
 # Description
-    The purpose of this project is to employ basic clustering techniques to 
-    extend a forecast given by some forecaster for a particular event to try
-    predict probabilities of unforecasted  outcomes of that event. 
+The purpose of this project is to employ basic clustering techniques to 
+extend a forecast given by some forecaster for a particular event to try
+predict probabilities of unforecast outcomes of that event. 
 
 # Motivation and Method
 As a toy scenario to motivate the forecasting problem: 
@@ -17,9 +17,9 @@ for P(M)?  The general idea is to  use the available historical data of pairs (P
 and  generate a predictor that takes in P(A) and outputs P(M). 
 
 In this case, there is an apparent naive approach: say that P(A) = 0.5. Then we
-could look at our historcal day and count the number of days where P(A) = 0.5, and then
- ouput the fraction of days where the event M. For example, if among all the
-days where P(A) was forecasted to be 0.5, it rained in the metro area 60 times
+could look at our historical data and count the number of days where P(A) = 0.5, and then
+ output the fraction of days where the event M. For example, if among all the
+days where P(A) was forecast to be 0.5, it rained in the metro area 60 times
 and did not rain 40 times, then we would output P(M) = 0.6.
 
 Now, obviously this method isn't perfect, but it may perform quite well.
@@ -47,9 +47,10 @@ To solve the first problem, we use k-means clustering to group together days
 where the forecasts were 'similar'. Future work is it use more interesting
 metrics than the Euclidean one to complete this clustering. 
 
-To solve the second problem, we impute probabilties for all our examples in an
+To solve the second problem, we impute probabilities for all our examples in an
 'unbiased' way by conditioning the observed forecast with the historical
-data. For example, if we have, in all our histoy, seen forecasts for A_0 to A_10,
+data. For example, if we have (in all our history) seen forecasts for A_0, A_1, ...,  A_10,
 and we receive an example where we get forecasts for A_5 and A_7 on some
 particular day, then we 'impute' A_4 to be #(num days where A = 4) / #(num days
-where A<= 5) * P(A_5).
+where A<= 5) * P(A_5). We would use the same logic to impute the probabilities
+for A_0 through A_10.
